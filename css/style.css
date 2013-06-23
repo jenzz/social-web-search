@@ -1,0 +1,487 @@
+/*******************/
+/*  GENERAL STUFF  */
+/*******************/
+body {
+	text-align: center;
+}
+
+.ui-header {
+	background: #3B5998;
+}
+
+a.ui-mini.ui-input-clear {
+	right: 0 !important;
+}
+
+a.profileLink, a.profileLink:visited {
+	color: #2489CE;
+	font-weight: bold;
+}
+
+li.loadingAnimation img {
+	margin: 25% 50%;
+}
+
+.ui-header .ui-title {
+	margin-left: 0;
+	margin-right: 0;
+	white-space: normal;
+}
+
+.ui-li .ui-btn-text a {
+	white-space: normal !important;
+	overflow: visible !important;
+}
+
+
+
+/***************/
+/*  HOME PAGE  */
+/***************/
+form#searchFormHome, form#searchForm {
+	padding: 0 20px 15px 20px;
+}
+
+#btnAuthFacebook img, #btnAuthTwitter img {
+	padding-right: 0.4em;
+}
+
+form#searchFormHome #lblPosts, form#searchFormHome #lblPeople {
+	display: block;
+}
+
+#formFirstRow {
+	width: 300px;
+	margin: 0 auto;
+}
+
+#formFirstRow #searchPlatforms {
+	float: left;
+	margin-right: 1em;
+}
+
+#formSecondRow .ui-block-b .ui-btn {
+	display: block !important;
+}
+
+#formSecondRow .ui-block-b .ui-mini {
+	margin: .25em 5px;
+}
+
+span#facebookUser img, span#twitterUser img {
+	margin-right: 0.5em;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	border: 1px solid #CCCCCC;
+}
+
+div#home a[href='#preferences'] {
+	margin: 0;
+}
+span#facebookUser img, span#facebookUser span, span#twitterUser img, span#twitterUser span {
+	vertical-align: middle;
+}
+
+div#authTwitter {
+	margin-top: 1em;
+}
+
+div#authFacebook {
+	margin-top: 0.5em;
+}
+img.socialNetworkImg {
+	display: block;
+}
+
+
+/*********************/
+/*  TRENDING TOPICS  */
+/*********************/
+ul#trendingTopicsList img.twitterThumbnail {
+	float: left;
+	margin: 0 0.5em;
+	padding-top: 10px;
+}
+
+div#trendingTopicsWrapper span.ui-btn-inner {
+	text-align: center;
+}
+
+
+
+/********************/
+/*  RECENT QUERIES  */
+/********************/
+ul#recentQueries {
+	display: none;
+}
+
+ul#recentQueries .ui-bar-b {
+	border: none;
+}
+
+ul#recentQueries img {
+	float: left;
+	margin-left: 0.5em;
+	padding-top: 0.6em;
+}
+
+ul#recentQueries div.type {
+	float: left;
+}
+
+ul#recentQueries div.arrow {
+	float: left;
+	padding-top: 0.6em;
+	padding-left: 0.6em;
+}
+
+ul#recentQueries div.platforms img:last-child {
+	margin-right: 0.7em;
+}
+
+
+
+/******************/
+/*  SEARCH PAGE   */
+/******************/
+span#searchType {
+	font-style: italic;
+}
+
+span#searchPlatform img {
+	margin-right: 5px;
+}
+
+div#search a.linkAuthFacebook, div#search a.linkAuthTwitter {
+	color: #2489CE;
+	font-weight: bold;
+}
+
+div#search a.linkAuthFacebook:visited, div#search a.linkAuthTwitter:visited {
+	color: #2489CE;
+}
+
+div#search a.linkAuthFacebook:hover, div#search a.linkAuthTwitter:hover {
+	cursor: pointer;
+}
+
+div#search div.ui-block-b .ui-btn {
+	display: block;
+}
+
+div#search div.ui-block-b .ui-mini {
+	margin: 0.25em 5px;
+}
+
+@media (max-width: 450px) {
+	span#searchPlatform {
+		display: block;
+		margin-top: 0.2em;
+	}
+}
+
+
+
+/**************************/
+/*  RESULT LISTS GENERAL  */
+/**************************/
+.ui-content .ui-listview {
+	margin-bottom: 15px;
+}
+
+ul.resultList a {
+	text-decoration: none;
+	color: #333;
+}
+
+ul.resultList a:hover {
+	text-decoration: underline;
+}
+
+ul.resultList p.post a {
+	color: #666666;
+	text-decoration: underline;
+}
+
+ul.resultList img.thumbnail {
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	border: 1px solid #CCCCCC;
+}
+
+ul.resultList li.loadMore {
+	background: #FADB4E;
+	background-image: -webkit-linear-gradient(#FFEFAA,#FFE155);
+	background-image: -moz-linear-gradient(#FFEFAA,#FFE155);
+	background-image: -o-linear-gradient(#FFEFAA,#FFE155);
+	background-image: -ms-linear-gradient(#FFEFAA,#FFE155);
+	background-image: linear-gradient(#FFEFAA,#FFE155);
+}
+
+ul.resultList p.img_wrapper {
+	float: left;
+	margin-right: 1em;
+	margin-bottom: 0;
+}
+
+ul.resultList li.loadMore div {
+	text-align: center !important;
+}
+
+ul.resultList .ui-btn-inner a.ui-link-inherit, .ui-li-static.ui-li {
+	padding: 1.2em 15px 0.8em 15px;
+}
+
+ul.resultList li.divider img {
+	padding-left: 0.6em;
+	padding-top: 0.5em;
+}
+
+ul.resultList li.divider {
+	padding: 0.7em 0 0.7em 2.6em !important;
+}
+
+ul.resultList li.loadMore a.ui-link-inherit {
+	padding: 0.7em 15px 0.7em 15px !important;
+}
+
+ul.resultList li.error {
+	padding-top: 1.3em;
+	padding-bottom: 0.9em !important;
+}
+
+ul.resultList li.error p {
+	margin-bottom: 0;
+}
+
+ul.resultList .ui-li-aside {
+	width: auto;
+}
+
+ul.resultList span.name {
+	font-size: 16px;
+	font-weight: bold;
+	display: block;
+	margin-top: 0.2em;
+	margin-left: 0.6em;
+}
+
+ul.resultList li.ui-li-has-count {
+	padding-right: 80px;
+}
+
+ul.resultList li.posts span.name {
+	padding-right: 80px;
+}
+
+ul.resultList li.posts span.text-only {
+	display: block;
+	margin-bottom: 0.5em;
+}
+
+ul.resultList li.posts span.attachment {
+	display:block;
+	clear: both;
+	padding-top: 0.5em;
+}
+
+ul.resultList .ui-li .ui-li-heading a, .ui-li-desc {
+	white-space: normal !important;
+}
+
+ul.resultList li.posts span.attachment img.preview {
+	margin-top: 0.4em;
+}
+
+
+
+/******************/
+/*  TWITTER LIST  */
+/******************/
+ul#twitterList a.twitterLink {
+	color: #2489CE;
+	font-weight: bold;
+}
+
+ul#twitterList span.screenName {
+	color: #777;
+	font-size: 0.9em;
+	display: block;
+}
+
+ul.resultList span.post {
+	font-size: 12px;
+	font-weight: normal;
+	display: block;
+	margin-top: 0.2em;
+}
+
+ul#twitterList li.people span.latestTweet a.timestamp {
+	color: #666;
+}
+
+ul.resultList li.people span.name {
+	margin-top: -0.4em;
+	margin-left: 3.9em;
+}
+
+ul#twitterList li.people span.description {
+	font-size: 12px;
+	font-weight: normal;
+	font-style: italic;
+	margin-top: 0.35em;
+	display: block;
+}
+
+ul#twitterList li.people span.description {
+	font-size: 12px;
+	font-weight: normal;
+	font-style: italic;
+	margin-top: 0.35em;
+	display: block;
+}
+
+ul#twitterList li.people span.latestTweet {
+	font-size: 12px;
+	font-weight: normal;
+	display: block;
+	clear: both;
+	margin-top: 1em;
+}
+
+ul#twitterList li.people span.latestTweetLabel {
+	font-weight: bold;
+}
+
+ul#twitterList li.posts span.name {
+	margin-top: 0;
+}
+
+ul#twitterList li.posts span.replyLinks {
+	font-size: 12px;
+	font-weight: normal;
+	display: block;
+	margin-top: 0.25em;
+}
+
+ul#twitterList li.posts span.replyLinks a {
+	margin-right: 1em;
+}
+
+
+
+/*******************/
+/*  FACEBOOK LIST  */
+/*******************/
+ul#facebookList li.people.ui-li-static.ui-li {
+	padding-bottom: 2.1em;
+}
+
+ul#facebookList li.people span.name {
+	margin-top: 0.6em;
+}
+
+ul#facebookList li.posts span.post img {
+	margin-right: 0.5em;
+}
+
+
+
+/*****************/
+/*  GOOGLE LIST  */
+/*****************/
+ul#googleList li.people.ui-li-static.ui-li {
+	padding-bottom: 2.1em;
+}
+
+ul#googleList li.people span.name {
+	margin-top: 0.6em;
+}
+
+ul#googleList li.posts span.attachment img {
+	margin-right: 0.2em;
+}
+
+
+
+/**********************/
+/*  PREFERENCES PAGE  */
+/**********************/
+@media (min-width: 450px) {
+	.ui-field-contain .ui-controlgroup-controls {
+		width: 35%;
+	}
+}
+
+@media (max-width: 450px) {
+	.controlsWrapper {
+		margin: 0 auto;
+		width: 250px;
+	}
+}
+
+
+
+/*************************/
+/*  AUTHENTICATION PAGE  */
+/*************************/
+div.authError {
+	display: none;
+}
+p.user img {
+	margin-right: 0.5em;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	border: 1px solid #CCCCCC;
+}
+p.user img, p.user span {
+	vertical-align: middle;
+	font-weight: bold;
+}
+
+
+
+/***************/
+/*  INFO PAGE  */
+/***************/
+div#info div.row {
+	margin-top: 0.8em;
+}
+div#info div#networks {
+	width: 115px;
+	text-align: left;
+	margin: 0 auto;
+	margin-bottom: 2em;
+}
+div#info div.row img {
+	vertical-align: middle;
+	margin-right: 0.2em;
+}
+div#info div#about p {
+	margin-bottom: 2em;
+}
+div#info div#about span {
+	margin-bottom: 0.3em;
+	display: block;
+	font-weight: bold;
+}
+div#info p#author {
+	margin-bottom: 0 !important;
+}
+div#info p#contact img {
+	margin-right: 0.5em;
+}
+
+
+
+/***************/
+/*  COPYRIGHT  */
+/***************/
+div.copyright {
+	color: #CCCCCC;
+	font-weight: bold;
+}

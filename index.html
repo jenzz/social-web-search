@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Social Web Search</title>
+	<meta name="description" content="Search for people &amp; posts on Twitter, Facebook and Google+">
+	<!-- Make the Application Full Screen -->
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<!-- Setting the Black Status Bar Style -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no"/>
+	<link rel="shortcut icon" href="img/favicon.png">
+	<link rel="image_src" href="img/apple-touch-icon-precomposed.png ">
+	<!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
+	<link rel="apple-touch-icon-precomposed" href="img/apple-touch-icon-precomposed.png">
+	<!-- For first- and second-generation iPad: -->
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/apple-touch-icon-72x72-precomposed.png">
+	<!-- For iPhone with high-resolution Retina display: -->
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/apple-touch-icon-114x114-precomposed.png">
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
+	<!-- css -->
+	<link rel="stylesheet" href="css/jquery.mobile.simpledialog.css" />
+	<link rel="stylesheet" href="css/jquery.swipeButton-1.0.1.css" />
+	<link rel="stylesheet" href="css/style.css">
+	<!-- end css -->
+	<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
+	<!-- js -->	
+	<!-- add JSON support if not available natively by the browser (IE 5, IE 6, IE 7, FF 2.0, FF 3.0) -->
+	<script src="js/json2.js"></script>	
+	<script src="js/handlebars-1.0.0.beta.6.js"></script>
+	<script src="js/jquery.mobile.simpledialog2.js"></script>	
+	<script src='js/amplify.store.min.js'></script>
+	<script src='js/jquery.ba-serializeobject.js'></script>
+	<script src="js/jquery.swipeButton-1.1.js"></script>
+	<script src="js/jquery.deserialize.js"></script>	
+	<script src="js/jquery.oauthpopup.js"></script>
+	<script src="js/jquery.cookie.js"></script>
+	<script src="js/jquery.prettydate.js"></script>
+	<script src='js/scripts.js'></script>
+	<!-- end js -->
+</head>
+<body>
+
+	<!-- Start: MAIN PAGE -->
+	<div data-role="page" id="home">
+
+		<div data-role="header" data-theme="b">
+
+			<a href="#info" data-icon="info" data-iconpos="notext" data-theme="b" class="ui-btn-right">Info</a>
+			<h1>Social Web Search</h1>
+
+			<form id="searchFormHome" data-ajax="false">
+
+				<div id="formFirstRow">
+
+					<fieldset id="searchPlatforms" data-role="controlgroup" data-type="horizontal">
+
+						<input data-theme="d" type="checkbox" name="twitter" id="chbTwitter" value="on" checked="checked" />
+						<label for="chbTwitter">
+							<img class="socialNetworkImg" src="img/twitter_icon.png" width="20" height="20" alt="Twitter">
+							<img class="authStatus" id="imgAuthTwitter" width="7" height="7" src="img/circle_green.png" alt="OK" />
+						</label>
+
+						<input data-theme="c" type="checkbox" name="facebook" id="chbFacebook" value="on" checked="checked" />
+						<label for="chbFacebook">
+							<img class="socialNetworkImg" src="img/facebook_icon.png" width="20" height="20" alt="Facebook">
+							<img class="authStatus" id="imgAuthFacebook" width="7" height="7" src="img/circle_green.png" alt="OK" />
+						</label>
+
+						<input data-theme="c" type="checkbox" name="google" id="chbGoogle" value="on" checked="checked" />
+						<label for="chbGoogle">
+							<img class="socialNetworkImg" src="img/google_icon.png" width="20" height="20" alt="Google">
+							<img class="authStatus" id="imgAuthGoogle" width="7" height="7" src="img/circle_green.png" alt="OK" />
+						</label>
+
+					</fieldset>					
+
+					<fieldset data-role="controlgroup" data-type="horizontal">
+
+						<input data-theme="c" type="radio" name="type" id="chbPosts" value="posts" checked="checked" />
+						<label for="chbPosts">
+							<img src="img/posts_icon.png" width="20" height="20" alt="Posts">
+							<span id="lblPosts">Posts</span>
+						</label>
+
+						<input data-theme="d" type="radio" name="type" id="chbPeople" value="people" />
+						<label for="chbPeople">
+							<img src="img/people_icon.png" width="20" height="20" alt="People">
+							<span id="lblPeople">People</span>
+						</label>
+
+							
+					</fieldset>
+
+				</div>
+
+				<div id="formSecondRow" class="ui-grid-a">
+
+					<div class="ui-block-a" style="width: 80%;">
+						<input data-theme="c" type="search" id="searchInputHome" name="query" data-mini="true" placeholder="Search the social web..."  />
+					</div>
+
+					<div class="ui-block-b" style="width: 20%;">
+						<button id="btnSubmit" type="submit" data-inline="false" data-mini="true" data-theme="c">Go</button>
+					</div>
+
+				</div>
+
+			</form>
+
+		</div>
+
+		<div data-role="content">
+
+			<div id="trendingTopicsWrapper" data-role="collapsible" data-theme="c" data-content-theme="c">
+				<h3>Trending Topics</h3>
+				<p>Trending topics are currently only supported by <a rel="external" target="_blank" href="http://www.twitter.com/">Twitter</a>.</p>
+				<ul id="trendingTopicsList" data-role="listview" data-inset="true" data-theme="c"></ul>
+			</div>
+
+			<ul id="recentQueries" data-role="listview" data-inset="true" data-theme="c" data-split-theme="c" data-split-icon="delete">
+				<li id="recentQueriesHeader" data-role="list-divider">Recent Queries</li>
+			</ul>
+
+			<a href="#preferences" data-theme="c" data-role="button" data-icon="gear">Preferences</a>
+
+			<div id="authTwitter">
+				<span id="twitterUser"></span>
+				<a href="#" data-action="login" data-inline="true" data-role="button" id="btnAuthTwitter" class="linkAuthTwitter" data-theme="c"><img src="img/twitter_icon.png" width="18" height="18" alt="Twitter"><span class="label">Auth with Twitter</span></a>
+			</div>
+
+			<div id="authFacebook">
+				<span id="facebookUser"></span>
+				<a href="#" data-action="login" data-inline="true" data-role="button" id="btnAuthFacebook" class="linkAuthFacebook" data-theme="c"><img src="img/facebook_icon.png" width="18" height="18" alt="Facebook"><span class="label">Auth with Facebook</span></a>
+			</div>
+
+		</div>
+
+		<div class="copyright">
+			<p>© 2012 Jens Driller, University of Kent.</p>
+		</div>
+
+	</div>
+	<!-- END: MAIN PAGE -->
+
+
+
+	<!-- Start: SEARCH PAGE -->
+	<div data-role="page" id="search">
+
+		<div data-role="header" data-theme="b">
+
+			<h1>You are searching for <span id="searchType"></span> on <span id="searchPlatform"></span></h1>
+			<a href="#home" data-role="button" data-icon="arrow-l" data-transition="slide" data-direction="reverse" data-iconpos="notext" data-theme="b">Back</a>
+
+			<form id="searchForm" class="ui-grid-a" data-ajax="false">
+				<div class="ui-block-a" style="width:75%">
+					<input data-theme="c" type="search" id="searchInput" name="query" data-mini="true" placeholder="Search the social web..."  />
+				</div>
+				<div class="ui-block-b" style="width:25%">
+					<button type="submit" data-mini="true" data-theme="c">Go</button>
+				</div>
+			</form>
+
+		</div>
+
+		<div data-role="content">
+
+			<ul id="twitterList" class="resultList" data-role="listview" data-inset="true"></ul>
+			<ul id="facebookList" class="resultList" data-role="listview" data-inset="true"></ul>
+			<ul id="googleList" class="resultList" data-role="listview" data-inset="true"></ul>
+
+		</div>
+
+		<div class="copyright">
+			<p>© 2012 Jens Driller, University of Kent.</p>
+		</div>
+
+	</div>
+	<!-- END: SEARCH PAGE -->
+
+
+
+	<!-- Start: PREFERENCES PAGE -->
+	<div data-role="page" id="preferences">
+
+		<div data-role="header" data-theme="b">
+
+			<h1>Preferences</h1>
+			<a href="#home" data-role="button" data-direction="reverse" data-icon="home" data-iconpos="notext" data-theme="b">Back</a>
+
+		</div>
+
+		<div data-role="content">
+
+			<div data-role="fieldcontain" style="text-align: center">
+				<fieldset data-role="controlgroup" data-type="horizontal">
+					
+					<legend>Number of recent queries shown</legend>
+
+					<div class="controlsWrapper">
+						<input type="radio" name="radioRecentQueries" id="recent0" value="0" />
+						<label for="recent0">None</label>
+
+						<input type="radio" name="radioRecentQueries" id="recent3" value="3" />
+						<label for="recent3">3</label>
+
+						<input type="radio" name="radioRecentQueries" id="recent5" value="5" />
+						<label for="recent5">5</label>
+
+						<input type="radio" name="radioRecentQueries" id="recent10" value="10" />
+						<label for="recent10">10</label>
+					</div>
+
+				</fieldset>
+			</div>
+
+			<div data-role="fieldcontain">
+				<fieldset data-role="controlgroup" data-type="horizontal">
+						
+					<legend>Recent search queries delete mode</legend>
+
+					<div class="controlsWrapper">
+						<input type="radio" name="radioRecentQueriesDeleteMode" id="rqmodeclick" value="click" />
+						<label for="rqmodeclick">Click</label>
+						<input type="radio" name="radioRecentQueriesDeleteMode" id="rqmodeswipe" value="swipe" />
+						<label for="rqmodeswipe">Swipe</label>
+					</div>
+
+				</fieldset>
+			</div>
+
+			<div data-role="fieldcontain">
+				<fieldset data-role="controlgroup" data-type="horizontal">
+				 		
+					<legend>Post results shown per social network per page</legend>
+						
+					<div class="controlsWrapper">
+						<input type="radio" name="radioPostResultsPerPage" id="postspp3" value="3" />
+						<label for="postspp3">3</label>
+
+						<input type="radio" name="radioPostResultsPerPage" id="postspp5" value="5" />
+						<label for="postspp5">5</label>
+
+						<input type="radio" name="radioPostResultsPerPage" id="postspp10" value="10" />
+						<label for="postspp10">10</label>
+
+						<input type="radio" name="radioPostResultsPerPage" id="postspp15" value="15" />
+						<label for="postspp15">15</label>
+					</div>
+
+				</fieldset>
+			</div>
+
+			<div data-role="fieldcontain">
+				<fieldset data-role="controlgroup" data-type="horizontal">
+				 		
+					<legend>People results shown per social network per page</legend>
+						
+					<div class="controlsWrapper">
+						<input type="radio" name="radioPeopleResultsPerPage" id="peoplepp3" value="3" />
+						<label for="peoplepp3">3</label>
+
+						<input type="radio" name="radioPeopleResultsPerPage" id="peoplepp5" value="5" />
+						<label for="peoplepp5">5</label>
+
+						<input type="radio" name="radioPeopleResultsPerPage" id="peoplepp10" value="10" />
+						<label for="peoplepp10">10</label>
+
+						<input type="radio" name="radioPeopleResultsPerPage" id="peoplepp15" value="15" />
+						<label for="peoplepp15">15</label>
+					</div>
+
+				</fieldset>
+			</div>
+
+			<div data-role="fieldcontain">
+				<fieldset data-role="controlgroup" data-type="horizontal">
+						
+					<legend>Trending topics by default</legend>
+
+					<div class="controlsWrapper">
+						<input type="radio" name="radioTrendingTopics" id="ttopen" value="open" />
+						<label for="ttopen">Open</label>
+
+						<input type="radio" name="radioTrendingTopics" id="ttclosed" value="closed" />
+						<label for="ttclosed">Closed</label>
+					</div>
+
+				</fieldset>
+			</div>
+
+			
+
+			<div data-role="fieldcontain">
+				<fieldset data-role="controlgroup" data-type="horizontal">
+						
+					<legend>Search results display mode</legend>
+
+					<div class="controlsWrapper">
+						
+						<input type="radio" name="radioResultsDisplayMode" id="resmodeinset" value="inset" />
+						<label for="resmodeinset">Inset</label>
+
+						<input type="radio" name="radioResultsDisplayMode" id="resmodefull" value="full" />
+						<label for="resmodefull">Full width</label>
+
+					</div>
+					
+				</fieldset>
+			</div>
+
+			<br /><button id="btnResetPrefs" data-icon="delete" data-theme="c">Reset to defaults</button>
+			<button id="btnClearQueries" data-icon="delete" data-theme="c">Clear recent queries</button>
+			<br />
+			<a href="#home" data-role="button" data-direction="reverse" data-icon="home" data-theme="c">Back to home screen</a>
+
+		</div>
+
+		<div class="copyright">
+			<p>© 2012 Jens Driller, University of Kent.</p>
+		</div>
+
+	</div>
+	<!-- End: PREFERENCES PAGE -->
+
+
+
+	<!-- Start: INFO PAGE -->
+	<div data-role="page" id="info">
+
+		<div data-role="header" data-theme="b">
+
+			<h1>Social Web Search</h1>
+			<a href="#home" data-role="button" data-icon="home" data-direction="reverse" data-iconpos="notext" data-theme="b">Home</a>
+
+		</div>
+
+		<div data-role="content">
+
+			<p>This mobile web app allows you to search for people and posts<br />on the three main social networks:</p>
+			
+			<div id="networks">
+
+				<div class="row">
+					<img src="img/twitter_icon.png" width="20" height="20" alt="Twitter">
+					<a href="https://www.twitter.com" rel="external" target="_blank">Twitter</a>
+				</div>
+				<div class="row">
+					<img src="img/facebook_icon.png" width="20" height="20" alt="Facebook">
+					<a href="https://www.facebook.com" rel="external" target="_blank">Facebook</a>
+				</div>
+				<div class="row">
+					<img src="img/google_icon.png" width="20" height="20" alt="Google">
+					<a href="https://plus.google.com" rel="external" target="_blank">Google+</a>
+				</div>
+
+			</div>
+
+			<div id="about">
+
+				<p>
+					<span>Based on:</span>
+					<a href="http://www.jquery.com" rel="external" target="_blank">jQuery 1.7.1</a> and
+					<a href="http://www.jquerymobile.com" rel="external" target="_blank">jQuery Mobile 1.1.0</a>
+				</p>
+				<p id="author">
+					<span>A project by:</span>
+					Jens Driller<br />
+					University of Kent<br />
+					jd428 [at] kent.ac.uk
+				</p>
+				<p id="contact">
+					<a href="https://twitter.com/#!/DaveDisco88" rel="external" target="_blank"><img src="img/twitter_icon.png" width="20" height="20" alt="Twitter"></a>
+					<a href="https://www.facebook.com/jensdriller" rel="external" target="_blank"><img src="img/facebook_icon.png" width="20" height="20" alt="Facebook"></a>
+					<a href="https://plus.google.com/117842304092565664447" rel="external" target="_blank"><img src="img/google_icon.png" width="20" height="20" alt="Google"></a>
+				</p>
+		
+			</div>
+
+			<a href="#home" data-role="button" data-direction="reverse" data-icon="home" data-theme="c">Back to home screen</a>
+
+		</div>
+
+		<div class="copyright">
+			<p>© 2012 Jens Driller, University of Kent.</p>
+		</div>
+
+	</div>
+	<!-- End: INFO PAGE -->
+
+
+
+	<!-- Start: TWITTER AUTHORISATION PAGE -->
+	<div data-role="page" id="twitterAuth">
+
+		<div data-role="header" data-theme="b">
+
+			<h1>Social Web Search</h1>
+			<a href="#home" data-role="button" data-icon="home" data-iconpos="notext" data-theme="b">Home</a>
+
+		</div>
+
+		<div data-role="content">
+
+			<div class="authOK">
+				<img src="img/ok_twitter.png" height="94" width="94" alt="OK" />
+				<p class="user"></p>
+				<p>You have been authorised successfully.</p>
+				<p>You can now start searching for people on <a rel="external" target="_blank" href="http://www.twitter.com/">Twitter</a>.</p>				
+			</div>
+
+			<div class="authError">
+				<img src="img/error_twitter.png" height="94" width="94" alt="Error" />
+				<p>You have cancelled the authentication or an error occurred.</p>
+			</div>
+
+			<br /><a href="#home" data-role="button" data-icon="home" data-theme="c">Back to home screen</a>
+
+		</div>
+
+		<div class="copyright">
+			<p>© 2012 Jens Driller, University of Kent.</p>
+		</div>
+
+	</div>
+	<!-- End: TWITTER AUTHORISATION PAGE -->
+
+
+
+	<!-- Start: FACEBOOK AUTHORISATION PAGE -->
+	<div data-role="page" id="facebookAuth">
+
+		<div data-role="header" data-theme="b">
+
+			<h1>Social Web Search</h1>
+			<a href="#home" data-role="button" data-icon="home" data-iconpos="notext" data-theme="b">Home</a>
+
+		</div>
+
+		<div data-role="content">
+
+			<div class="authOK">
+				<img src="img/ok_facebook.png" height="94" width="94" alt="OK" />
+				<p class="user"></p>
+				<p>You have been authorised successfully.</p>
+				<p>You can now start searching for people on <a rel="external" target="_blank" href="http://www.facebook.com/">Facebook</a>.</p>				
+			</div>
+
+			<div class="authError">
+				<img src="img/error_facebook.png" height="94" width="94" alt="OK" />
+				<p>You have cancelled the authentication or an error occurred.</p>
+			</div>
+
+			<br /><a href="#home" data-role="button" data-icon="home" data-theme="c">Back to home screen</a>
+
+		</div>
+
+		<div class="copyright">
+			<p>© 2012 Jens Driller, University of Kent.</p>
+		</div>
+
+	</div>
+	<!-- End: FACEBOOK AUTHORISATION PAGE -->
+
+
+
+	<!-- Start: TWITTER LOGOUT PAGE -->
+	<div data-role="page" id="twitterLogOut">
+
+		<div data-role="header" data-theme="b">
+
+			<h1>Social Web Search</h1>
+			<a href="#home" data-role="button" data-icon="home" data-iconpos="notext" data-theme="b">Home</a>
+
+		</div>
+
+		<div data-role="content">
+		
+			<p class="user"></p>
+			<p>You were successfully logged out from <a rel="external" target="_blank" href="http://www.twitter.com/">Twitter</a>.</p>
+
+			<br /><a href="#home" data-role="button" data-icon="home" data-theme="c">Back to home screen</a>
+
+		</div>
+
+		<div class="copyright">
+			<p>© 2012 Jens Driller, University of Kent.</p>
+		</div>
+
+	</div>
+	<!-- End: TWITTER LOGOUT PAGE -->
+
+
+	
+	<!-- Start: FACEBOOK LOGOUT PAGE -->
+	<div data-role="page" id="facebookLogOut">
+
+		<div data-role="header" data-theme="b">
+
+			<h1>Social Web Search</h1>
+			<a href="#home" data-role="button" data-icon="home" data-iconpos="notext" data-theme="b">Home</a>
+
+		</div>
+
+		<div data-role="content">
+		
+			<p class="user"></p>
+			<p>You were successfully logged out from <a rel="external" target="_blank" href="http://www.facebook.com/">Facebook</a>.</p>
+
+			<br /><a href="#home" data-role="button" data-icon="home" data-theme="c">Back to home screen</a>
+
+		</div>
+
+		<div class="copyright">
+			<p>© 2012 Jens Driller, University of Kent.</p>
+		</div>
+
+	</div>
+	<!-- End: FACEBOOK LOGOUT PAGE -->
+
+
+
+	<!-- Handlebar Templates -->
+	<script id="twitterPostsTemplate" type="text/x-handlebars-template">
+		{{#each posts}}
+			<li class="posts">
+				<p class="img_wrapper">
+					<a href="{{author_profile_url}}" rel="external" target="_blank">
+						<img class="thumbnail" height="48" width="48" src="{{author_img_url}}" alt="{{author_name}}" />
+					</a>
+				</p>
+				<p class="ui-li-aside">
+					<a class="timestamp" href="{{post_url}}" rel="external" target="_blank" alt="{{post_timestamp_pretty}}">{{post_timestamp}}</a>
+				</p>	
+				<span class="name">
+					<a href="{{author_profile_url}}" rel="external" target="_blank">{{author_name}}</a>
+				</span>
+				<span class="post">
+					{{{post_text}}}
+				</span>
+				<span class="replyLinks">
+					<a href="{{post_reply_url}}" rel="external" target="_blank" class="replyLink">
+						<img src="img/twitter_reply.png" height="16" width="16" alt="Reply" />Reply
+					</a>
+					<a href="{{post_retweet_url}}" rel="external" target="_blank" class="retweetLink">
+						<img src="img/twitter_retweet.png" height="16" width="16" alt="Retweet" />Retweet
+					</a>
+					<a href="{{post_favourite_url}}" rel="external" target="_blank" class="favouriteLink">
+						<img src="img/twitter_favourite.png" height="16" width="16" alt="Favourite" />Favourite
+					</a>
+				</span>
+			</li>
+		{{/each}}
+	</script>
+
+	<script id="twitterPeopleTemplate" type="text/x-handlebars-template">
+		{{#each people}}
+			<li class="people">
+				<p class="img_wrapper">
+					<a href="{{person_profile_url}}" rel="external" target="_blank">
+						<img class="thumbnail" height="48" width="48" src="{{person_img_url}}" alt="{{person_name}}" />
+					</a>
+				</p>
+				<span class="name">
+					<a href="{{person_profile_url}}" rel="external" target="_blank">{{person_name}}</a>
+					{{#if person_verified}}
+						<img src="img/twitter_verified.png" width="16" height="16" alt="Verified" />
+					{{/if}}
+				</span>
+				<span class="screenName">@{{person_screen_name}}</span>
+				<span class="description">{{{person_description}}}</span>
+				{{#if latest_tweet}}
+					<span class="latestTweet"><span class="latestTweetLabel">Latest Tweet:</span>
+					{{{latest_tweet_text}}} [<a class="timestamp" href="{{latest_tweet_url}}" rel="external" target="_blank" alt="{{latest_tweet_timestamp_pretty}}">{{latest_tweet_timestamp}}</a>]</span>
+				{{/if}}
+				<span class="ui-li-count">{{person_followers_count}}</span>
+			</li>
+		{{/each}}
+	</script>
+
+	<script id="facebookPostsTemplate" type="text/x-handlebars-template">
+		{{#each posts}}
+			<li class="posts">
+				<p class="img_wrapper">
+					<a href="{{author_profile_url}}" rel="external" target="_blank">
+						<img class="thumbnail" height="50" width="50" src="{{author_img_url}}" alt="{{author_name}}" />
+					</a>
+				</p>
+				<p class="ui-li-aside">
+					<a class="timestamp" href="{{post_url}}" rel="external" target="_blank" alt="{{post_timestamp_pretty}}">{{post_timestamp}}</a>
+				</p>
+				<span class="name">
+					<a href="{{author_profile_url}}" rel="external" target="_blank">{{author_name}}</a>
+				</span>
+				<span class="post">
+					{{facebook_post_body}}
+				</span>	
+			</li>
+		{{/each}} 
+	</script>
+
+	<script id="facebookPeopleTemplate" type="text/x-handlebars-template">
+		{{#each people}}
+			<li class="people">
+				<p class="img_wrapper">
+					<a href="{{person_profile_url}}" rel="external" target="_blank">
+						<img class="thumbnail" height="50" width="50" src="{{person_img_url}}" alt="{{person_name}}" />
+					</a>
+				</p>
+				<span class="name">
+					<a href="{{person_profile_url}}" rel="external" target="_blank">{{person_name}}</a>
+				</span>
+			</li>
+		{{/each}}
+	</script>
+
+	<script id="googlePostsTemplate" type="text/x-handlebars-template">
+		{{#each posts}}
+			<li class="posts">
+				<p class="img_wrapper">
+					<a href="{{author_profile_url}}" rel="external" target="_blank">
+						<img class="thumbnail" height="50" width="50" src="{{author_img_url}}" alt="{{author_name}}" />
+					</a>
+				</p>
+				<p class="ui-li-aside">
+					<a class="timestamp" href="{{post_url}}" rel="external" target="_blank" alt="{{post_timestamp_pretty}}">{{post_timestamp}}</a>
+				</p>
+				<span class="name">
+					<a href="{{author_profile_url}}" rel="external" target="_blank">{{author_name}}</a>
+				</span>
+				<span class="post">
+					{{google_post_body}}
+				</span>				
+			</li>
+		{{/each}}
+	</script>
+
+	<script id="googlePeopleTemplate" type="text/x-handlebars-template">
+		{{#each people}}
+			<li class="people">
+				<p class="img_wrapper">
+					<a href="{{person_profile_url}}" rel="external" target="_blank">
+						<img class="thumbnail" height="50" width="50" src="{{person_img_url}}" alt="{{person_name}}" />
+					</a>
+				</p>
+				<span class="name">
+					<a href="{{person_profile_url}}" rel="external" target="_blank">{{{person_name}}}</a>
+				</span>
+			</li>
+		{{/each}}
+	</script>
+
+</body>
+</html>
